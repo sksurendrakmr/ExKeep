@@ -19,3 +19,25 @@ Furthermore, a dashboard will be developed to display all information. This dash
 
 https://user-images.githubusercontent.com/65896570/177631973-58a529eb-5017-415e-802b-89ae4cfef5f9.mp4
 
+import { useState, useEffect } from 'react';
+
+const getViewportWidth = () => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  }
+  return null;
+};
+
+export const useWindowDimension = () => {
+  const [screenWidth, setScreenWidth] = useState(getViewportWidth());
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(getViewportWidth());
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return screenWidth;
+};
+
